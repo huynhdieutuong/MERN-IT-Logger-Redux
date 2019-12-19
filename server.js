@@ -8,6 +8,7 @@ const connectDB = require('./config/db');
 const errorHandler = require('./middlewares/errorHandler');
 
 // Route files
+const techs = require('./routes/techs');
 
 // Connect to database
 connectDB();
@@ -21,7 +22,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 // Mount routes
-app.get('/', (req, res) => res.send('ok'));
+app.use('/api/v1/techs', techs);
 
 // Error handler middleware
 app.use(errorHandler);
