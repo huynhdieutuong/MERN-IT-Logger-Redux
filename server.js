@@ -9,6 +9,7 @@ const errorHandler = require('./middlewares/errorHandler');
 
 // Route files
 const techs = require('./routes/techs');
+const logs = require('./routes/logs');
 
 // Connect to database
 connectDB();
@@ -23,6 +24,7 @@ app.use(express.json());
 
 // Mount routes
 app.use('/api/v1/techs', techs);
+app.use('/api/v1/logs', logs);
 
 // Error handler middleware
 app.use(errorHandler);
