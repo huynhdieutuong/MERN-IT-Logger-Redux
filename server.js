@@ -5,6 +5,7 @@ const colors = require('colors');
 const morgan = require('morgan');
 
 const connectDB = require('./config/db');
+const errorHandler = require('./middlewares/errorHandler');
 
 // Route files
 
@@ -21,6 +22,9 @@ app.use(express.json());
 
 // Mount routes
 app.get('/', (req, res) => res.send('ok'));
+
+// Error handler middleware
+app.use(errorHandler);
 
 // Port
 const port = process.env.PORT || 5000;
