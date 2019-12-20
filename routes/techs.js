@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const Tech = require('../models/Tech');
+const advancedResults = require('../middlewares/advancedResults');
+
 const {
   getTechs,
   getTech,
@@ -11,7 +14,7 @@ const {
 
 router
   .route('/')
-  .get(getTechs)
+  .get(advancedResults(Tech), getTechs)
   .post(addTech);
 
 router

@@ -6,13 +6,7 @@ const Tech = require('../models/Tech');
 // @route   GET /api/v1/techs
 // @access  Public
 exports.getTechs = asyncHandler(async (req, res, next) => {
-  const techs = await Tech.find();
-
-  res.status(200).json({
-    success: true,
-    count: techs.length,
-    data: techs
-  });
+  res.status(200).json(res.advancedResults);
 });
 
 // @desc    Get single tech

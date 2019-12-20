@@ -6,13 +6,7 @@ const Log = require('../models/Log');
 // @route   GET /api/v1/logs
 // @access  Public
 exports.getLogs = asyncHandler(async (req, res, next) => {
-  const logs = await Log.find();
-
-  res.status(200).json({
-    success: true,
-    count: logs.length,
-    data: logs
-  });
+  res.status(200).json(res.advancedResults);
 });
 
 // @desc    Get single log
@@ -67,7 +61,7 @@ exports.updateLog = asyncHandler(async (req, res, next) => {
   if (message) log.message = message;
   if (tech) log.tech = tech;
   if (attention) log.attention = attention;
-  await log.save();
+  log = await log.save();
 
   res.status(200).json({
     success: true,

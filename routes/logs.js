@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const Log = require('../models/Log');
+const advancedResults = require('../middlewares/advancedResults');
+
 const {
   getLogs,
   getLog,
@@ -11,7 +14,13 @@ const {
 
 router
   .route('/')
-  .get(getLogs)
+  .get(
+    advancedResults(Log, {
+      path: 'tech',
+      select: 'fullName slug'
+    }),
+    getLogs
+  )
   .post(addLog);
 
 router
