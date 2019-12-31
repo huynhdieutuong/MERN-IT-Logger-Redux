@@ -10,13 +10,16 @@ const {
   getTech,
   addTech,
   updateTech,
-  deleteTech
+  deleteTech,
+  searchTechs
 } = require('../controllers/techs');
 
 router
   .route('/')
   .get(advancedResults(Tech), getTechs)
   .post(addTech);
+
+router.route('/search').get(advancedResults(Tech), searchTechs);
 
 router
   .route('/:id')

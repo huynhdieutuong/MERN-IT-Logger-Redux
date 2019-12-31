@@ -10,7 +10,8 @@ const {
   getLog,
   addLog,
   updateLog,
-  deleteLog
+  deleteLog,
+  searchLogs
 } = require('../controllers/logs');
 
 router
@@ -23,6 +24,14 @@ router
     getLogs
   )
   .post(addLog);
+
+router.route('/search').get(
+  advancedResults(Log, {
+    path: 'tech',
+    select: 'fullName slug'
+  }),
+  searchLogs
+);
 
 router
   .route('/:id')

@@ -75,3 +75,23 @@ exports.deleteLog = asyncHandler(async (req, res, next) => {
     data: {}
   });
 });
+
+// @desc    Searhc logs
+// @route   GET /api/v1/logs/search?q=text
+// @access  Public
+exports.searchLogs = asyncHandler(async (req, res, next) => {
+  const text = req.query.q;
+  const regex = new RegExp(text, 'gi');
+
+  const { data } = res.advancedResults;
+
+  const results = data.filter(
+    res => res.message.match(regex) || res.tech.fullName.match(regex)
+  );
+
+  res.status(200).json({
+    success: true,
+    count: results.length,
+    data: results
+  });
+});
