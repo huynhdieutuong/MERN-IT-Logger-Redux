@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Tech = require('../models/Tech');
 const advancedResults = require('../middlewares/advancedResults');
+const findById = require('../middlewares/findById');
 
 const {
   getTechs,
@@ -19,8 +20,8 @@ router
 
 router
   .route('/:id')
-  .get(getTech)
-  .put(updateTech)
-  .delete(deleteTech);
+  .get(findById(Tech), getTech)
+  .put(findById(Tech), updateTech)
+  .delete(findById(Tech), deleteTech);
 
 module.exports = router;

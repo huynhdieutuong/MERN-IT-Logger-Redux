@@ -1,5 +1,4 @@
 const asyncHandler = require('../middlewares/asyncHandler');
-const ErrorResponse = require('../utils/ErrorResponse');
 const Tech = require('../models/Tech');
 
 // @desc    Get all techs
@@ -13,13 +12,7 @@ exports.getTechs = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/techs/:id
 // @access  Public
 exports.getTech = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-
-  const tech = await Tech.findById(id);
-
-  if (!tech) {
-    return next(new ErrorResponse(`Tech not found with id of ${id}`, 404));
-  }
+  const tech = res.result;
 
   res.status(200).json({
     success: true,
@@ -48,18 +41,13 @@ exports.addTech = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/techs/:id
 // @access  Public
 exports.updateTech = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
   const { firstName, lastName } = req.body;
 
-  let tech = await Tech.findById(id);
-
-  if (!tech) {
-    return next(new ErrorResponse(`Tech not found with id of ${id}`, 404));
-  }
+  let tech = res.result;
 
   if (firstName) tech.firstName = firstName;
   if (lastName) tech.lastName = lastName;
-  await tech.save();
+  tech = await tech.save();
 
   res.status(200).json({
     success: true,
@@ -71,15 +59,9 @@ exports.updateTech = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/v1/techs/:id
 // @access  Public
 exports.deleteTech = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+  const tech = res.result;
 
-  const tech = await Tech.findById(id);
-
-  if (!tech) {
-    return next(new ErrorResponse(`Tech not found with id of ${id}`, 404));
-  }
-
-  await Tech.findByIdAndDelete(id);
+  await Tech.findByIdAndDelete(tech._id);
 
   res.status(200).json({
     success: true,

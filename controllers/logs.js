@@ -1,5 +1,4 @@
 const asyncHandler = require('../middlewares/asyncHandler');
-const ErrorResponse = require('../utils/ErrorResponse');
 const Log = require('../models/Log');
 
 // @desc    Get all logs
@@ -13,13 +12,7 @@ exports.getLogs = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/logs/:id
 // @access  Public
 exports.getLog = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
-
-  const log = await Log.findById(id);
-
-  if (!log) {
-    return next(new ErrorResponse(`Log not found with id of ${id}`, 404));
-  }
+  const log = res.result;
 
   res.status(200).json({
     success: true,
@@ -33,10 +26,15 @@ exports.getLog = asyncHandler(async (req, res, next) => {
 exports.addLog = asyncHandler(async (req, res, next) => {
   const { message, tech, attention } = req.body;
 
-  const log = await Log.create({
+  let log = await Log.create({
     message,
     tech,
     attention
+  });
+
+  log = await Log.findById(log._id).populate({
+    path: 'tech',
+    select: 'fullName slug'
   });
 
   res.status(201).json({
@@ -49,14 +47,9 @@ exports.addLog = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/Logs/:id
 // @access  Public
 exports.updateLog = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
   const { message, tech, attention } = req.body;
 
-  let log = await Log.findById(id);
-
-  if (!log) {
-    return next(new ErrorResponse(`Log not found with id of ${id}`, 404));
-  }
+  let log = res.result;
 
   if (message) log.message = message;
   if (tech) log.tech = tech;
@@ -73,15 +66,9 @@ exports.updateLog = asyncHandler(async (req, res, next) => {
 // @route   DELETE /api/v1/logs/:id
 // @access  Public
 exports.deleteLog = asyncHandler(async (req, res, next) => {
-  const { id } = req.params;
+  const log = res.result;
 
-  const log = await Log.findById(id);
-
-  if (!log) {
-    return next(new ErrorResponse(`Log not found with id of ${id}`, 404));
-  }
-
-  await Log.findByIdAndDelete(id);
+  await Log.findByIdAndDelete(log._id);
 
   res.status(200).json({
     success: true,

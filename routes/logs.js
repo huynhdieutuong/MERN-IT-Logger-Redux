@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Log = require('../models/Log');
 const advancedResults = require('../middlewares/advancedResults');
+const findById = require('../middlewares/findById');
 
 const {
   getLogs,
@@ -25,8 +26,20 @@ router
 
 router
   .route('/:id')
-  .get(getLog)
-  .put(updateLog)
-  .delete(deleteLog);
+  .get(
+    findById(Log, {
+      path: 'tech',
+      select: 'fullName slug'
+    }),
+    getLog
+  )
+  .put(
+    findById(Log, {
+      path: 'tech',
+      select: 'fullName slug'
+    }),
+    updateLog
+  )
+  .delete(findById(Log), deleteLog);
 
 module.exports = router;
