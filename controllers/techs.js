@@ -73,16 +73,5 @@ exports.deleteTech = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/techs/search?q=name
 // @access  Public
 exports.searchTechs = asyncHandler(async (req, res, next) => {
-  const name = req.query.q;
-  const regex = new RegExp(name, 'gi');
-
-  const { data } = res.advancedResults;
-
-  const results = data.filter(res => res.fullName.match(regex));
-
-  res.status(200).json({
-    success: true,
-    count: results.length,
-    data: results
-  });
+  res.status(200).json(res.advancedResults);
 });

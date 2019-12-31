@@ -1,5 +1,8 @@
+const Log = require('../models/Log');
+const Tech = require('../models/Tech');
+
 module.exports = (model, populate) => async (req, res, next) => {
-  const { select, sort, page, limit } = req.query;
+  const { select, sort, page, limit, q } = req.query;
   let query = model.find();
 
   // Select Fields
@@ -14,26 +17,39 @@ module.exports = (model, populate) => async (req, res, next) => {
     query = query.sort('-createAt');
   }
 
-  // Pagination
-  const pageN = parseInt(page) || 1;
-  const limitN = parseInt(limit) || 10;
-  const startIndex = (pageN - 1) * limitN;
-  const endIndex = pageN * limitN;
-
-  query = query.skip(startIndex).limit(limitN);
-
   // Populate
   if (populate) {
     query = query.populate(populate);
   }
 
   // Executing query
-  const results = await query;
+  let results = await query;
 
-  // Pagination result
+  // Search
+  if (q) {
+    const regex = new RegExp(q, 'gi');
+
+    if (model === Log) {
+      results = results.filter(
+        res => res.message.match(regex) || res.tech.fullName.match(regex)
+      );
+    }
+
+    if (model === Tech) {
+      results = results.filter(res => res.fullName.match(regex));
+    }
+  }
+
+  // Pagination
+  const pageN = parseInt(page) || 1;
+  const limitN = parseInt(limit) || 10;
+  const startIndex = (pageN - 1) * limitN;
+  const endIndex = pageN * limitN;
+  const total = results.length;
+
+  results = results.slice(startIndex, endIndex);
+
   const pagination = {};
-  const total = await model.countDocuments();
-
   if (endIndex < total) {
     pagination.next = {
       page: pageN + 1,
