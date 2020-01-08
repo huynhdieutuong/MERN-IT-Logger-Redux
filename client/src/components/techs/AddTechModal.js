@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
+import techContext from '../../contexts/tech/techContext';
+
 const AddTechModal = () => {
+  const { addTech } = useContext(techContext);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
@@ -12,7 +16,7 @@ const AddTechModal = () => {
       return M.toast({ html: 'Please enter first name and last name' });
     }
 
-    console.log({ firstName, lastName });
+    addTech({ firstName, lastName });
 
     // Clear state
     setFirstName('');

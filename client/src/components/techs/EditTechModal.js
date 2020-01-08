@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
+import techContext from '../../contexts/tech/techContext';
+
 const EditTechModal = () => {
+  const { current, updateTech } = useContext(techContext);
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    if (current) {
+      setFirstName(current.firstName);
+      setLastName(current.lastName);
+    }
+  }, [current]);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -12,7 +23,7 @@ const EditTechModal = () => {
       return M.toast({ html: 'Please enter first name and last name' });
     }
 
-    console.log({ firstName, lastName });
+    updateTech({ _id: current._id, firstName, lastName });
 
     // Clear state
     setFirstName('');

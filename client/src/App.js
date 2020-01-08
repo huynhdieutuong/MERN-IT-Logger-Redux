@@ -13,26 +13,30 @@ import TechListModal from './components/techs/TechListModal';
 import AddTechModal from './components/techs/AddTechModal';
 import EditTechModal from './components/techs/EditTechModal';
 
+import TechState from './contexts/tech/TechState';
+
 const App = () => {
   useEffect(() => {
     M.AutoInit();
   });
 
   return (
-    <Fragment>
-      <SearchBar />
-      <div className='container' style={{ marginTop: '50px' }}>
-        <Logs />
-        <AddBtn />
-      </div>
+    <TechState>
+      <Fragment>
+        <SearchBar />
+        <div className='container' style={{ marginTop: '50px' }}>
+          <Logs />
+          <AddBtn />
+        </div>
 
-      {/* Modal */}
-      <AddLogModal />
-      <EditLogModal />
-      <TechListModal />
-      <AddTechModal />
-      <EditTechModal />
-    </Fragment>
+        {/* Modal */}
+        <AddLogModal />
+        <EditLogModal />
+        <TechListModal />
+        <AddTechModal />
+        <EditTechModal />
+      </Fragment>
+    </TechState>
   );
 };
 

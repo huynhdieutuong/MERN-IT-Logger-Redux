@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useContext, useEffect } from 'react';
+import techContext from '../../contexts/tech/techContext';
 
 const TechSelectOptions = () => {
-  const [techs, setTechs] = useState([]);
-
-  const getTechs = async () => {
-    const res = await axios.get('/api/v1/techs');
-    const techs = res.data;
-    setTechs(techs.data);
-  };
+  const { techs, getTechs } = useContext(techContext);
 
   useEffect(() => {
     getTechs();
+    // eslint-disable-next-line
   }, []);
 
   return (

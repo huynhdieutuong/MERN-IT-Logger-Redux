@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext, useEffect } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 import TechItem from './TechItem';
 
-const Techs = () => {
-  const [techs, setTechs] = useState([]);
-  const [error, setError] = useState(null);
+import techContext from '../../contexts/tech/techContext';
 
-  const getTechs = async () => {
-    try {
-      const res = await axios.get('/api/v1/techs');
-      const techs = res.data;
-      if (techs.error) {
-        setError(techs.error);
-      } else {
-        setTechs(techs.data);
-      }
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-  };
+const Techs = () => {
+  const { techs, error, message, getTechs } = useContext(techContext);
 
   useEffect(() => {
     getTechs();
+    // eslint-disable-next-line
   }, []);
 
   if (error) M.toast({ html: error });
+  if (message) M.toast({ html: message });
 
   return (
     <div className='modal' id='tech-list-modal'>
