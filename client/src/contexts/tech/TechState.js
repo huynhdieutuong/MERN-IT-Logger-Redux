@@ -7,10 +7,7 @@ import {
   DELETE_TECH,
   SET_CURRENT_TECH,
   UPDATE_TECH,
-  SEARCH_TECHS,
-  CLEAR_SEARCH_TECHS,
-  TECHS_ERROR,
-  CLEAR_CURRENT_LOG
+  TECHS_ERROR
 } from '../types';
 
 import techReducer from './techReducer';
@@ -110,12 +107,6 @@ const TechState = props => {
     }
   };
 
-  // Search Techs
-  const searchTechs = () => {};
-
-  // Clear Search Techs
-  const clearSearchTechs = () => {};
-
   return (
     <techContext.Provider
       value={{
@@ -127,8 +118,7 @@ const TechState = props => {
         addTech,
         deleteTech,
         setCurrentTech,
-        updateTech,
-        searchTechs
+        updateTech
       }}
     >
       {props.children}

@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 import TechSelectOptions from '../techs/TechSelectOptions';
 
+import logContext from '../../contexts/log/logContext';
+
 const EditLogModal = () => {
+  const { current, updateLog } = useContext(logContext);
+
   const [message, setMessage] = useState('');
   const [tech, setTech] = useState('');
   const [attention, setAttention] = useState(false);
+
+  useEffect(() => {
+    if (current) {
+      setMessage(current.message);
+      setTech(current.tech._id);
+      setAttention(current.attention);
+    }
+  }, [current]);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -15,7 +27,7 @@ const EditLogModal = () => {
       return M.toast({ html: 'Please enter message and tech' });
     }
 
-    console.log({ message, tech, attention });
+    updateLog({ _id: current._id, message, tech, attention });
 
     // Clear state
     setMessage('');

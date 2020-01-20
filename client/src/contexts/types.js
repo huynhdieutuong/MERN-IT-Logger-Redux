@@ -4,8 +4,6 @@ export const ADD_TECH = 'ADD_TECH';
 export const DELETE_TECH = 'DELETE_TECH';
 export const SET_CURRENT_TECH = 'SET_CURRENT_TECH';
 export const UPDATE_TECH = 'UPDATE_TECH';
-export const SEARCH_TECHS = 'SEARCH_TECHS';
-export const CLEAR_SEARCH_TECHS = 'CLEAR_SEARCH_TECHS';
 export const TECHS_ERROR = 'TECHS_ERROR';
 
 // Log
@@ -15,6 +13,5 @@ export const DELETE_LOG = 'DELETE_LOG';
 export const SET_CURRENT_LOG = 'SET_CURRENT_LOG';
 export const UPDATE_LOG = 'UPDATE_LOG';
 export const SEARCH_LOGS = 'SEARCH_LOGS';
-export const CLEAR_SEARCH_LOGS = 'CLEAR_SEARCH_LOGS';
 export const SET_LOADING = 'SET_LOADING';
 export const LOGS_ERROR = 'LOGS_ERROR';

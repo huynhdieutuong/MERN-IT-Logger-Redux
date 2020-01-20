@@ -4,8 +4,6 @@ import {
   DELETE_TECH,
   SET_CURRENT_TECH,
   UPDATE_TECH,
-  SEARCH_TECHS,
-  CLEAR_SEARCH_TECHS,
   TECHS_ERROR
 } from '../types';
 
@@ -33,7 +31,9 @@ export default (state, action) => {
     case SET_CURRENT_TECH:
       return {
         ...state,
-        current: action.payload
+        current: action.payload,
+        error: null,
+        message: null
       };
     case UPDATE_TECH:
       return {

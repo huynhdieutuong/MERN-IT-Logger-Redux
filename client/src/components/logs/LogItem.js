@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 
+import logContext from '../../contexts/log/logContext';
+
 const LogItem = ({ log }) => {
+  const { deleteLog, setCurrentLog } = useContext(logContext);
+
   return (
     <li className='collection-item'>
       <div>
@@ -11,6 +15,7 @@ const LogItem = ({ log }) => {
           className={`modal-trigger ${
             log.attention ? 'red-text' : 'blue-text'
           }`}
+          onClick={() => setCurrentLog(log)}
         >
           {log.message}
         </a>
@@ -21,7 +26,12 @@ const LogItem = ({ log }) => {
           <Moment format='MMMM Do YYYY, h:mm:ss a'>{log.createAt}</Moment>
         </span>
         <a href='#!' className='secondary-content'>
-          <i className='material-icons grey-text'>delete</i>
+          <i
+            className='material-icons grey-text'
+            onClick={() => deleteLog(log)}
+          >
+            delete
+          </i>
         </a>
       </div>
     </li>

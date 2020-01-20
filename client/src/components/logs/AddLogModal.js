@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 import TechSelectOptions from '../techs/TechSelectOptions';
 
+import logContext from '../../contexts/log/logContext';
+
 const AddLogModal = () => {
+  const { addLog } = useContext(logContext);
+
   const [message, setMessage] = useState('');
   const [tech, setTech] = useState('');
   const [attention, setAttention] = useState(false);
@@ -15,7 +19,7 @@ const AddLogModal = () => {
       return M.toast({ html: 'Please enter message and tech' });
     }
 
-    console.log({ message, tech, attention });
+    addLog({ message, tech, attention });
 
     // Clear state
     setMessage('');

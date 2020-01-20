@@ -10,7 +10,7 @@ const TechItem = ({ tech }) => {
     <li className='collection-item'>
       <div>
         {tech.fullName}
-        <a href='#!' className='secondary-content grey-text'>
+        <span className='secondary-content grey-text'>
           <a href='#edit-tech-modal' className='modal-trigger'>
             <i className='material-icons' onClick={() => setCurrentTech(tech)}>
               edit
@@ -19,7 +19,7 @@ const TechItem = ({ tech }) => {
           <i className='material-icons' onClick={() => deleteTech(tech)}>
             delete
           </i>
-        </a>
+        </span>
       </div>
     </li>
   );

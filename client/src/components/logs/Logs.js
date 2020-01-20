@@ -1,39 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useContext } from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 import Preloader from '../layout/Preloader';
 import LogItem from './LogItem';
 
-const Logs = () => {
-  const [logs, setLogs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+import logContext from '../../contexts/log/logContext';
 
-  const getLogs = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get('/api/v1/logs');
-      const logs = res.data;
-      if (logs.error) {
-        setError(logs.error);
-      } else {
-        setLogs(logs.data);
-      }
-    } catch (error) {
-      console.error(error);
-      setError(error);
-    }
-    setLoading(false);
-  };
+const Logs = () => {
+  const { logs, loading, error, message, getLogs, setLoading } = useContext(
+    logContext
+  );
 
   useEffect(() => {
+    setLoading();
     getLogs();
     // eslint-disable-next-line
   }, []);
 
   if (loading) return <Preloader />;
   if (error) M.toast({ html: error });
+  if (message) M.toast({ html: message });
 
   return (
     <div>

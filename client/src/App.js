@@ -14,6 +14,7 @@ import AddTechModal from './components/techs/AddTechModal';
 import EditTechModal from './components/techs/EditTechModal';
 
 import TechState from './contexts/tech/TechState';
+import LogState from './contexts/log/LogState';
 
 const App = () => {
   useEffect(() => {
@@ -21,22 +22,24 @@ const App = () => {
   });
 
   return (
-    <TechState>
-      <Fragment>
-        <SearchBar />
-        <div className='container' style={{ marginTop: '50px' }}>
-          <Logs />
-          <AddBtn />
-        </div>
+    <LogState>
+      <TechState>
+        <Fragment>
+          <SearchBar />
+          <div className='container' style={{ marginTop: '50px' }}>
+            <Logs />
+            <AddBtn />
+          </div>
 
-        {/* Modal */}
-        <AddLogModal />
-        <EditLogModal />
-        <TechListModal />
-        <AddTechModal />
-        <EditTechModal />
-      </Fragment>
-    </TechState>
+          {/* Modal */}
+          <AddLogModal />
+          <EditLogModal />
+          <TechListModal />
+          <AddTechModal />
+          <EditTechModal />
+        </Fragment>
+      </TechState>
+    </LogState>
   );
 };
 
