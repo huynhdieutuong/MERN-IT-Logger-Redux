@@ -47,14 +47,12 @@ exports.addLog = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/Logs/:id
 // @access  Public
 exports.updateLog = asyncHandler(async (req, res, next) => {
-  const { message, tech, attention } = req.body;
-
   let log = res.result;
 
-  if (message) log.message = message;
-  if (tech) log.tech = tech;
-  if (attention) log.attention = attention;
-  log = await log.save();
+  log = await Log.findByIdAndUpdate(log._id, req.body, { new: true }).populate({
+    path: 'tech',
+    select: 'fullName slug'
+  });
 
   res.status(200).json({
     success: true,
@@ -76,7 +74,7 @@ exports.deleteLog = asyncHandler(async (req, res, next) => {
   });
 });
 
-// @desc    Searhc logs
+// @desc    Search logs
 // @route   GET /api/v1/logs/search?q=text
 // @access  Public
 exports.searchLogs = asyncHandler(async (req, res, next) => {
