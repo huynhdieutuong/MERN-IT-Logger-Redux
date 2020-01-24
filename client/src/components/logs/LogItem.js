@@ -1,12 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 
-const LogItem = ({ log }) => {
+import { setCurrentLog, deleteLog } from '../../redux/actions/logAction';
+
+const LogItem = ({ log, setCurrentLog, deleteLog }) => {
   return (
     <li className='collection-item'>
       <div>
         <a
+          onClick={() => setCurrentLog(log)}
           href='#edit-log-modal'
           className={`modal-trigger ${
             log.attention ? 'red-text' : 'blue-text'
@@ -21,7 +25,12 @@ const LogItem = ({ log }) => {
           <Moment format='MMMM Do YYYY, h:mm:ss a'>{log.createAt}</Moment>
         </span>
         <a href='#!' className='secondary-content'>
-          <i className='material-icons grey-text'>delete</i>
+          <i
+            onClick={() => deleteLog(log)}
+            className='material-icons grey-text'
+          >
+            delete
+          </i>
         </a>
       </div>
     </li>
@@ -29,7 +38,9 @@ const LogItem = ({ log }) => {
 };
 
 LogItem.propTypes = {
-  log: PropTypes.object.isRequired
+  log: PropTypes.object.isRequired,
+  setCurrentLog: PropTypes.func.isRequired,
+  deleteLog: PropTypes.func.isRequired
 };
 
-export default LogItem;
+export default connect(null, { setCurrentLog, deleteLog })(LogItem);

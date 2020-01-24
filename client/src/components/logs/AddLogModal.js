@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import M from 'materialize-css/dist/js/materialize.min.js';
+
+import { addLog } from '../../redux/actions/logAction';
 
 import TechSelectOptions from '../techs/TechSelectOptions';
 
-const AddLogModal = () => {
+const AddLogModal = ({ addLog }) => {
   const [message, setMessage] = useState('');
   const [tech, setTech] = useState('');
   const [attention, setAttention] = useState(false);
@@ -15,7 +19,7 @@ const AddLogModal = () => {
       return M.toast({ html: 'Please enter message and tech' });
     }
 
-    console.log({ message, tech, attention });
+    addLog({ message, tech, attention });
 
     // Clear state
     setMessage('');
@@ -80,4 +84,8 @@ const AddLogModal = () => {
   );
 };
 
-export default AddLogModal;
+AddLogModal.propTypes = {
+  addLog: PropTypes.func.isRequired
+};
+
+export default connect(null, { addLog })(AddLogModal);
