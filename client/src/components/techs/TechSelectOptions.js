@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const TechSelectOptions = () => {
-  const [techs, setTechs] = useState([]);
+import { getTechs } from '../../redux/actions/techAction';
 
-  const getTechs = async () => {
-    const res = await axios.get('/api/v1/techs');
-    const techs = res.data;
-    setTechs(techs.data);
-  };
-
+const TechSelectOptions = ({ getTechs, tech: { techs } }) => {
   useEffect(() => {
     getTechs();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -24,4 +20,13 @@ const TechSelectOptions = () => {
   );
 };
 
-export default TechSelectOptions;
+TechSelectOptions.propTypes = {
+  getTechs: PropTypes.func.isRequired,
+  tech: PropTypes.object.isRequired
+};
+
+const mapStateToProp = state => ({
+  tech: state.tech
+});
+
+export default connect(mapStateToProp, { getTechs })(TechSelectOptions);

@@ -1,9 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const EditTechModal = () => {
+import { updateTech } from '../../redux/actions/techAction';
+
+const EditTechModal = ({ updateTech, tech: { current } }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+
+  useEffect(() => {
+    if (current) {
+      setFirstName(current.firstName);
+      setLastName(current.lastName);
+    }
+  }, [current]);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -12,7 +23,7 @@ const EditTechModal = () => {
       return M.toast({ html: 'Please enter first name and last name' });
     }
 
-    console.log({ firstName, lastName });
+    updateTech({ _id: current._id, firstName, lastName });
 
     // Clear state
     setFirstName('');
@@ -57,4 +68,12 @@ const EditTechModal = () => {
   );
 };
 
-export default EditTechModal;
+EditTechModal.propTypes = {
+  updateTech: PropTypes.func.isRequired
+};
+
+const mapStateToProp = state => ({
+  tech: state.tech
+});
+
+export default connect(mapStateToProp, { updateTech })(EditTechModal);
