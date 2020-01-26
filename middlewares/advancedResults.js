@@ -52,17 +52,22 @@ module.exports = (model, populate) => async (req, res, next) => {
   const pagination = {};
   if (endIndex < total) {
     pagination.next = {
-      page: pageN + 1,
-      limit
+      page: pageN + 1
     };
   }
 
   if (startIndex > 0) {
     pagination.pre = {
-      page: pageN - 1,
-      limit
+      page: pageN - 1
     };
   }
+
+  // Page Numbers
+  let pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(total / limitN); i++) {
+    pageNumbers.push(i);
+  }
+  pagination.pageNumbers = pageNumbers;
 
   res.advancedResults = {
     success: true,

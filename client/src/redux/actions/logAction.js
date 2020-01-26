@@ -6,17 +6,19 @@ import {
   UPDATE_LOG,
   SEARCH_LOGS,
   LOGS_ERROR,
-  SET_LOADING
+  SET_LOADING,
+  SET_PAGE
 } from '../types';
 
-export const getLogs = () => async dispatch => {
-  const res = await fetch('/api/v1/logs');
+export const getLogs = page => async dispatch => {
+  const res = await fetch(`/api/v1/logs?page=${page}&limit=1`);
   const response = await res.json();
 
   if (response.success) {
     dispatch({
       type: GET_LOGS,
-      payload: response.data
+      payload: response.data,
+      pagination: response.pagination
     });
   } else {
     dispatch({
@@ -121,5 +123,12 @@ export const setCurrentLog = log => {
 export const setLoading = () => {
   return {
     type: SET_LOADING
+  };
+};
+
+export const setPage = page => {
+  return {
+    type: SET_PAGE,
+    payload: page
   };
 };

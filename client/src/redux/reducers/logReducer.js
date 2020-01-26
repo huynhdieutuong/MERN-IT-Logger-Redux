@@ -6,11 +6,14 @@ import {
   UPDATE_LOG,
   SEARCH_LOGS,
   LOGS_ERROR,
-  SET_LOADING
+  SET_LOADING,
+  SET_PAGE
 } from '../types';
 
 const initialState = {
   logs: [],
+  pagination: null,
+  page: null,
   current: null,
   message: null,
   error: null,
@@ -23,21 +26,25 @@ export default (state = initialState, action) => {
       return {
         ...state,
         logs: action.payload,
-        loading: false
+        pagination: action.pagination,
+        loading: false,
+        message: null
       };
     case ADD_LOG:
       return {
         ...state,
         logs: [action.payload, ...state.logs],
         message: action.message,
-        error: null
+        error: null,
+        page: null
       };
     case DELETE_LOG:
       return {
         ...state,
         logs: state.logs.filter(log => log._id !== action.payload),
         message: action.message,
-        error: null
+        error: null,
+        page: null
       };
     case UPDATE_LOG:
       return {
@@ -51,7 +58,9 @@ export default (state = initialState, action) => {
     case SEARCH_LOGS:
       return {
         ...state,
-        logs: action.payload
+        logs: action.payload,
+        pagination: null,
+        message: null
       };
     case LOGS_ERROR:
       return {
@@ -70,6 +79,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      };
+    case SET_PAGE:
+      return {
+        ...state,
+        page: action.payload,
+        message: null
       };
     default:
       return state;

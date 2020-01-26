@@ -8,6 +8,7 @@ import store from './redux/store';
 
 import SearchBar from './components/layout/SearchBar';
 import AddBtn from './components/layout/AddBtn';
+import Pagination from './components/layout/Pagination';
 
 import Logs from './components/logs/Logs';
 import AddLogModal from './components/logs/AddLogModal';
@@ -27,6 +28,7 @@ const App = () => {
         <SearchBar />
         <div className='container' style={{ marginTop: '50px' }}>
           <Logs />
+          <Pagination />
           <AddBtn />
         </div>
 

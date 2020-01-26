@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-import { getLogs, setLoading } from '../../redux/actions/logAction';
+import { getLogs, setLoading, setPage } from '../../redux/actions/logAction';
 
 import Preloader from '../layout/Preloader';
 import LogItem from './LogItem';
@@ -11,13 +11,17 @@ import LogItem from './LogItem';
 const Logs = ({
   getLogs,
   setLoading,
-  log: { logs, loading, message, error }
+  setPage,
+  log: { logs, loading, message, error, page }
 }) => {
   useEffect(() => {
-    setLoading();
-    getLogs();
+    if (!page) {
+      setLoading();
+      setPage(1);
+    }
+    getLogs(page);
     // eslint-disable-next-line
-  }, []);
+  }, [page]);
 
   if (loading) return <Preloader />;
   if (error) M.toast({ html: error });
@@ -42,11 +46,16 @@ const Logs = ({
 Logs.propTypes = {
   log: PropTypes.object.isRequired,
   getLogs: PropTypes.func.isRequired,
-  setLoading: PropTypes.func.isRequired
+  setLoading: PropTypes.func.isRequired,
+  setPage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   log: state.log
 });
 
-export default connect(mapStateToProps, { getLogs, setLoading })(Logs);
+export default connect(mapStateToProps, {
+  getLogs,
+  setLoading,
+  setPage
+})(Logs);
